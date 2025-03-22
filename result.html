@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Analysis Results</title>
+        <style>
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 40px auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+    }
+
+    td {
+        border: none;
+        padding: 12px;
+        text-align: left;
+        background-color: #f7f7f7;
+    }
+
+    th {
+        border: none;
+        padding: 12px;
+        background-color: black;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    td:hover {
+        background-color: #e7e7e7;
+    }
+
+    th:first-child, td:first-child {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    th:last-child, td:last-child {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+</style>
+    </head>
+    <body>
+        <h1>Analysis Results</h1>
+    {{ table | safe }}
+    </body>
+</html>

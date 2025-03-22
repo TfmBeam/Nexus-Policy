@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>File Selector</title>
+
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}" >
+    </head> 
+    <body>
+        <div class="container">
+            <h2>Upload Your File</h2>
+            <p>Please choose a CSV file to upload:</p>
+    
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="csv_file" accept=".csv">
+                <div id="selectedFiles">
+                    <h3>Selected File:</h3>
+                    <ol id="fileList"></ol>
+                </div>
+                <div class="inputBox">
+                    <input type="submit" value="Next->">
+                </div>
+            </form>
+    
+            <script>
+                const fileInput = document.getElementById('fileInput');
+                const fileList = document.getElementById('fileList');
+    
+                fileInput.addEventListener('change', function() {
+                    fileList.innerHTML = '';
+                    if (this.files && this.files.length > 0) {
+                        for (const file of this.files) {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = file.name;
+                            fileList.appendChild(listItem);
+                        }
+                    } else {
+                        fileList.innerHTML = '<li>No file selected.</li>';
+                    }
+                });
+            </script>
+        </div>
+    </body>
+</html>
