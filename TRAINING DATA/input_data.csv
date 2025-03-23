@@ -1,0 +1,9 @@
+Disease,ASF,Age,AirPollution,AlcoholIntake,BMI,BPMeds,BloodPressure,CDR,CancerHistory,Cholesterol,DiabetesPedigreeFunction,EDUC,Gender,GeneticRisk,Glucose,Group,Hand,Insulin,M/F,MMSE,OccupationalExposure,PhysicalActivity,Pregnancies,RespiratoryInfections,SES,SkinThickness,Smoking,alco,ap_hi,ap_lo,cd40,cd420,cd80,cd820,cigsPerDay,diaBP,diabetes,drugs,eTIV,gender,glucose,hemo,homo,karnof,nWBV,oprior,preanti,race,smoke,symptom,sysBP,totChol,treat,wtkg
+Cancer,,36,,0,27.3,,,,1,,,,Female,Low,,,,,,,,5,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Cardiovascular Disease,,36,,,27.3,,,,,0,,,,,0,,,,,,,,,,,,,0,100,High,,,,,,,,,,,,,,,,,,,0,,,,,
+Chronic Respiratory Diseases,,36,0,,27.3,,,,,,,,,High,,,,,,,1,5,,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Dementia,1.34,36,,,,,,0.5,,,,16,,,,0,1,,1,28,,,,,4,,,,,,,,,,,,,,1400000,,,,,,0.68,,,,,,,,,
+Diabetes,,36,,,27.3,,130,,,,0.5,,,,150,,,120,,,,,3,,,32,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+HIV/AIDS,,36,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1200,700,1400,1500,,,,1,,"""Male""",,12.5,0,90,,1,1,"""Asian""",,1,,,1,50.2
+Hypertension,,36,,,18.5,145,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,180,1,,,,150,,,,,,,,,,90,230,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,
