@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Analysis Results</title>
+        <title>File Selector</title>
         <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <style>
@@ -18,6 +18,8 @@
                 overflow-y: auto;
                 display: flex;
                 flex-direction: column;
+                align-items: center;
+                justify-content: center;
                 position: relative;
                 isolation: isolate;
                 perspective: 1000px;
@@ -127,8 +129,7 @@
                 padding: 40px;
                 border-radius: 40px;
                 text-align: center;
-                width: 80%;
-                max-width: 1000px;
+                width: 400px;
                 position: relative;
                 z-index: 2;
                 box-shadow: 
@@ -138,56 +139,26 @@
                 color: white;
                 opacity: 0;
                 animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-                margin: 40px auto;
+                margin: 0 auto;
             }
 
-            h1 {
+            h2 {
                 margin-top: 0;
-                font-size: 2.5em;
+                font-size: 2em;
                 color: white;
-                margin-bottom: 30px;
-                opacity: 0;
-                animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+                margin-bottom: 10px;
             }
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 20px 0;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 20px;
-                overflow: hidden;
-                opacity: 0;
-                animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
-            }
-
-            th {
-                background-color: rgba(255, 255, 255, 0.2);
-                color: white;
-                font-weight: 500;
-                padding: 15px;
-                text-align: left;
-                font-size: 1.1em;
-                transition: all 0.3s ease;
-            }
-
-            td {
-                padding: 15px;
+            p {
                 color: rgba(255, 255, 255, 0.9);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                transition: all 0.3s ease;
+                margin-bottom: 30px;
             }
 
-            tr:last-child td {
-                border-bottom: none;
+            #fileInput {
+                display: none;
             }
 
-            tr:hover td {
-                background-color: rgba(255, 255, 255, 0.05);
-                transform: scale(1.01);
-            }
-
-            .back-btn {
+            .file-upload-btn {
                 font-family: 'Google Sans', Arial, sans-serif;
                 display: inline-block;
                 padding: 12px 25px;
@@ -197,20 +168,16 @@
                 font-weight: 500;
                 border-radius: 15px;
                 transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                margin-top: 30px;
-                border: none;
+                margin-bottom: 20px;
                 cursor: pointer;
-                font-size: 1em;
                 position: relative;
                 overflow: hidden;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
                            0 0 0 0 rgba(46, 125, 50, 0.3);
                 border: 1px solid rgba(46, 125, 50, 0.1);
-                opacity: 0;
-                animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
             }
 
-            .back-btn:hover {
+            .file-upload-btn:hover {
                 transform: scale(1.05) translateY(-2px);
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
                            0 0 20px rgba(46, 125, 50, 0.2);
@@ -219,7 +186,7 @@
                 letter-spacing: 0.5px;
             }
 
-            .back-btn::before {
+            .file-upload-btn::before {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -236,11 +203,11 @@
                 transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
             }
 
-            .back-btn:hover::before {
+            .file-upload-btn:hover::before {
                 transform: translateX(100%);
             }
 
-            .back-btn::after {
+            .file-upload-btn::after {
                 content: '';
                 position: absolute;
                 inset: -2px;
@@ -257,7 +224,113 @@
                 filter: blur(8px);
             }
 
-            .back-btn:hover::after {
+            .file-upload-btn:hover::after {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+
+            #selectedFiles {
+                margin: 20px 0;
+                padding: 20px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                text-align: left;
+            }
+
+            #selectedFiles h3 {
+                margin-top: 0;
+                color: white;
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+
+            #fileList {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            #fileList li {
+                color: rgba(255, 255, 255, 0.9);
+                padding: 8px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            #fileList li:last-child {
+                border-bottom: none;
+            }
+
+            .next-btn {
+                font-family: 'Google Sans', Arial, sans-serif;
+                display: inline-block;
+                padding: 12px 25px;
+                background-color: #ffffff;
+                color: #2E7D32;
+                text-decoration: none;
+                font-weight: 500;
+                border-radius: 15px;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                margin-top: 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 1em;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+                           0 0 0 0 rgba(46, 125, 50, 0.3);
+                border: 1px solid rgba(46, 125, 50, 0.1);
+                opacity: 0;
+                animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+            }
+
+            .next-btn:hover {
+                transform: scale(1.05) translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+                           0 0 20px rgba(46, 125, 50, 0.2);
+                background-color: #ffffff;
+                border-color: rgba(46, 125, 50, 0.3);
+                letter-spacing: 0.5px;
+            }
+
+            .next-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    120deg,
+                    transparent,
+                    rgba(46, 125, 50, 0.1),
+                    transparent
+                );
+                transform: translateX(-100%);
+                transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            }
+
+            .next-btn:hover::before {
+                transform: translateX(100%);
+            }
+
+            .next-btn::after {
+                content: '';
+                position: absolute;
+                inset: -2px;
+                background: linear-gradient(
+                    -45deg,
+                    rgba(46, 125, 50, 0),
+                    rgba(144, 238, 144, 0.3),
+                    rgba(46, 125, 50, 0)
+                );
+                border-radius: 17px;
+                z-index: -1;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                opacity: 0;
+                filter: blur(8px);
+            }
+
+            .next-btn:hover::after {
                 opacity: 1;
                 transform: scale(1.1);
             }
@@ -273,9 +346,9 @@
                 }
             }
         </style>
-    </head>
+    </head> 
     <body>
-        <a href="home.html" class="logo">
+        <a href="{{ url_for('results') }}" class="logo">
             <span class="logo-text">NEXUS</span>
             <span class="logo-text">POLICY</span>
         </a>
@@ -287,109 +360,103 @@
         <div class="shape shape-6"></div>
 
         <div class="container">
-            <h1>Analysis Results</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Disease</th>
-                        <th>Percentage</th>
-                        <th>Insurance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Diabetes</td>
-                        <td>10%</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Hypertension</td>
-                        <td>15%</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>Heart Disease</td>
-                        <td>20%</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Chronic Respiratory Disease</td>
-                        <td>5%</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>Cardiovascular Disease</td>
-                        <td>12%</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>HIV/AIDS</td>
-                        <td>8%</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Neurodegenerative Disease</td>
-                        <td>25%</td>
-                        <td>No</td>
-                    </tr>
-                </tbody>
-            </table>
-            <a href="file-selection.html" class="back-btn">← Back to Upload</a>
-        </div>
+            <h2>Upload Your File</h2>
+            <p>Please choose a CSV file to upload</p>
+    
+            <form method="post" action="result.html" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="csv_file" accept=".csv">
+                <label for="fileInput" class="file-upload-btn">Choose File</label>
+                
+                <div id="selectedFiles">
+                    <h3>Selected File:</h3>
+                    <ol id="fileList">
+                        <li>No file selected</li>
+                    </ol>
+                </div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Mouse movement effect for shapes
-                document.addEventListener('mousemove', function(e) {
-                    const shapes = document.querySelectorAll('.shape');
-                    const mouseX = e.clientX;
-                    const mouseY = e.clientY;
+                <a href="{{ url_for('results') }}" type="submit" class="next-btn">Next →</a>
+            </form>
+    
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const fileInput = document.getElementById('fileInput');
+                    const fileList = document.getElementById('fileList');
+                    const form = document.querySelector('form');
 
-                    shapes.forEach((shape, index) => {
-                        const speed = 0.04 - (index * 0.005);
-                        const rect = shape.getBoundingClientRect();
-                        const centerX = rect.left + rect.width / 2;
-                        const centerY = rect.top + rect.height / 2;
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        if (fileInput.files.length > 0) {
+                            window.location.href = 'result.html';
+                        } else {
+                            alert('Please select a file first');
+                        }
+                    });
 
-                        const deltaX = (mouseX - centerX) * speed;
-                        const deltaY = (mouseY - centerY) * speed;
-
-                        gsap.to(shape, {
-                            duration: 1.5,
-                            x: deltaX,
-                            y: deltaY,
-                            ease: "power2.out"
+                    fileInput.addEventListener('change', function() {
+                        fileList.innerHTML = '';
+                        if (this.files && this.files.length > 0) {
+                            for (const file of this.files) {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = file.name;
+                                fileList.appendChild(listItem);
+                            }
+                        } else {
+                            fileList.innerHTML = '<li>No file selected</li>';
+                        }
+                    });
+    
+                    // Mouse movement effect for shapes
+                    document.addEventListener('mousemove', function(e) {
+                        const shapes = document.querySelectorAll('.shape');
+                        const mouseX = e.clientX;
+                        const mouseY = e.clientY;
+    
+                        shapes.forEach((shape, index) => {
+                            const speed = 0.04 - (index * 0.005);
+                            const rect = shape.getBoundingClientRect();
+                            const centerX = rect.left + rect.width / 2;
+                            const centerY = rect.top + rect.height / 2;
+    
+                            const deltaX = (mouseX - centerX) * speed;
+                            const deltaY = (mouseY - centerY) * speed;
+    
+                            gsap.to(shape, {
+                                duration: 1.5,
+                                x: deltaX,
+                                y: deltaY,
+                                ease: "power2.out"
+                            });
                         });
                     });
+    
+                    // Enhanced shape animations
+                    function animateShapes() {
+                        const shapes = ['.shape-1', '.shape-2', '.shape-3', '.shape-4', '.shape-5', '.shape-6'];
+                        shapes.forEach((shape, index) => {
+                            const tl = gsap.timeline({ repeat: -1 });
+                            tl.to(shape, {
+                                y: '+=40',
+                                x: index % 2 === 0 ? '+=20' : '-=20',
+                                rotation: index % 2 === 0 ? 360 : -360,
+                                duration: 8 + index,
+                                ease: "sine.inOut",
+                                yoyo: true
+                            });
+    
+                            gsap.to(shape, {
+                                borderRadius: '63% 37% 38% 62% / 56% 59% 41% 44%',
+                                duration: 8,
+                                ease: "sine.inOut",
+                                yoyo: true,
+                                repeat: -1
+                            });
+                        });
+                    }
+    
+                    // Initialize animations
+                    animateShapes();
                 });
-
-                // Enhanced shape animations
-                function animateShapes() {
-                    const shapes = ['.shape-1', '.shape-2', '.shape-3', '.shape-4', '.shape-5', '.shape-6'];
-                    shapes.forEach((shape, index) => {
-                        const tl = gsap.timeline({ repeat: -1 });
-                        tl.to(shape, {
-                            y: '+=40',
-                            x: index % 2 === 0 ? '+=20' : '-=20',
-                            rotation: index % 2 === 0 ? 360 : -360,
-                            duration: 8 + index,
-                            ease: "sine.inOut",
-                            yoyo: true
-                        });
-
-                        gsap.to(shape, {
-                            borderRadius: '63% 37% 38% 62% / 56% 59% 41% 44%',
-                            duration: 8,
-                            ease: "sine.inOut",
-                            yoyo: true,
-                            repeat: -1
-                        });
-                    });
-                }
-
-                // Initialize animations
-                animateShapes();
-            });
-        </script>
+            </script>
+        </div>
     </body>
 </html>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Healthcare Analytics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmagic/2.0.8/plugins/animation.gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Google Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #ffffff !important;  /* Force white background */
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: block;
+            position: relative;
+            isolation: isolate;
+            perspective: 1000px;
+        }
+
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            padding: 10px 15px;
+            border: 2px solid #000;
+            text-decoration: none;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.2em;
+            background: #fff;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            display: block;
+            text-align: center;
+        }
+
+        .shape {
+            display: none;
+        }
+
+        .shape {
+            display: block;
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            mix-blend-mode: multiply;
+            will-change: transform;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .shape-1 {
+            width: 150px;
+            height: 150px;
+            background-color: rgba(144, 238, 144, 0.25);
+            border-radius: 50%;
+            left: 15%;
+            top: 20%;
+            filter: blur(2px);
+        }
+
+        .shape-2 {
+            width: 180px;
+            height: 180px;
+            background-color: rgba(76, 175, 80, 0.25);
+            border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+            right: 15%;
+            top: 30%;
+            filter: blur(2px);
+        }
+
+        .shape-3 {
+            width: 220px;
+            height: 220px;
+            background-color: rgba(56, 142, 60, 0.2);
+            border-radius: 61% 39% 52% 48% / 44% 59% 41% 56%;
+            left: 5%;
+            bottom: 15%;
+            filter: blur(3px);
+        }
+
+        .shape-4 {
+            width: 160px;
+            height: 160px;
+            background-color: rgba(129, 199, 132, 0.2);
+            border-radius: 42% 58% 40% 60% / 55% 45% 55% 45%;
+            right: 10%;
+            bottom: 20%;
+            filter: blur(2px);
+        }
+
+        .shape-5 {
+            width: 190px;
+            height: 190px;
+            background-color: rgba(165, 214, 167, 0.2);
+            border-radius: 53% 47% 47% 53% / 48% 52% 48% 52%;
+            left: 35%;
+            top: 10%;
+            filter: blur(2.5px);
+        }
+
+        .shape-6 {
+            width: 140px;
+            height: 140px;
+            background-color: rgba(102, 187, 106, 0.2);
+            border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;
+            right: 30%;
+            bottom: 35%;
+            filter: blur(2px);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: rgba(46, 125, 50, 0.95);
+            padding: 40px;
+            border-radius: 40px;
+            text-align: center;
+            margin: 150px auto 150px;
+            width: 300px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                0 4px 8px rgba(46, 125, 50, 0.15),
+                0 0 4px rgba(144, 238, 144, 0.1);
+            color: white;
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        header h1, header p {
+            color: white;
+        }
+
+        .sections {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .section {
+            background-color: rgba(46, 125, 50, 0.95);
+            padding: 30px;
+            border-radius: 30px;
+            width: 300px;
+            text-align: center;
+            color: white;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+            z-index: 2;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                0 4px 8px rgba(46, 125, 50, 0.15),
+                0 0 4px rgba(144, 238, 144, 0.1);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(
+                45deg,
+                rgba(144, 238, 144, 0.2),
+                rgba(46, 125, 50, 0.3)
+            );
+            border-radius: 31px;
+            z-index: -1;
+            filter: blur(8px);
+        }
+
+        .section:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.2),
+                0 6px 12px rgba(46, 125, 50, 0.2),
+                0 0 8px rgba(144, 238, 144, 0.15);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2.5em;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+            font-weight: 500;
+        }
+        p {
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+            font-weight: 400;
+        }
+        .start-button {
+            font-family: 'Google Sans', Arial, sans-serif;
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #ffffff;
+            color: #2E7D32;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+                       0 0 0 0 rgba(46, 125, 50, 0.3);
+            border: 1px solid rgba(46, 125, 50, 0.1);
+        }
+        .start-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+                       0 0 20px rgba(46, 125, 50, 0.2);
+            background-color: #ffffff;
+            border-color: rgba(46, 125, 50, 0.3);
+            letter-spacing: 0.5px;
+        }
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(46, 125, 50, 0.1),
+                transparent
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .start-button:hover::before {
+            transform: translateX(100%);
+        }
+        .start-button::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(
+                -45deg,
+                rgba(46, 125, 50, 0),
+                rgba(144, 238, 144, 0.3),
+                rgba(46, 125, 50, 0)
+            );
+            border-radius: 17px;
+            z-index: -1;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            filter: blur(8px);
+        }
+        .start-button:hover::after {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+        }
+        .fade-out {
+            animation: fadeOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .animated-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .animated-list li {
+            padding: 10px;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+        .animated-list li:hover {
+            transform: translateX(5px);
+            color: #90EE90;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-card {
+            background-color: var(--bg-secondary, #f8f8f8);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(144, 238, 144, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            border-color: rgba(144, 238, 144, 0.25);
+        }
+
+        .service-icon {
+            font-size: 2em;
+            color: #2E7D32;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .service-title {
+            font-size: 1.2em;
+            color: #000000;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .service-description {
+            color: #000000;
+            opacity: 0.9;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .service-features li {
+            color: #000000;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 0.85em;
+        }
+
+        .service-features li::before {
+            content: "✓";
+            color: #2E7D32;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .learn-more {
+            color: #2E7D32;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .learn-more:hover {
+            opacity: 0.8;
+            transform: translateX(5px);
+        }
+
+        .learn-more::after {
+            content: "→";
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .learn-more:hover::after {
+            transform: translateX(5px);
+        }
+
+        footer {
+            width: 100%;
+            padding: 20px;
+            color: #2E7D32;
+            margin-top: 40px;
+            background-color: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="logo">
+        <span class="logo-text">NEXUS</span>
+        <span class="logo-text">POLICY</span>
+    </a>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+    <div class="shape shape-5"></div>
+    <div class="shape shape-6"></div>
+    <div class="main-content">
+        <header>
+            <h1>Predictive Healthcare Analytics</h1>
+            <p>Helping insurance companies assess health risks and personalize policies.</p>
+            <a href="{{ url_for('import_data') }}" class="start-button">Get Started</a>
+        </header>
+
+        <section id="what-we-do">
+            <h2>What We Do</h2>
+            <p>We provide advanced AI-driven healthcare risk assessment solutions that empower insurance companies to make data-driven decisions.</p>
+        </section>
+
+        <section id="about-us">
+            <h2>About Us</h2>
+            <p>We are a team of innovators dedicated to transforming the healthcare insurance industry through predictive analytics.</p>
+        </section>
+
+        <section id="our-services">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">📊</span>
+                    <h3 class="service-title">Health Risk Assessment</h3>
+                    <p class="service-description">Advanced AI-powered analysis of health data to predict and assess potential risks.</p>
+                    <ul class="service-features">
+                        <li>Predictive health modeling</li>
+                        <li>Risk factor identification</li>
+                        <li>Personalized health scoring</li>
+                        <li>Trend analysis and forecasting</li>
+                    </ul>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">🎯</span>
+                    <h3 class="service-title">Policy Personalization</h3>
+                    <p class="service-description">Tailored insurance policies based on individual health profiles and risk assessments.</p>
+                    <ul class="service-features">
+                        <li>Custom policy recommendations</li>
+                        <li>Dynamic premium calculation</li>
+                        <li>Coverage optimization</li>
+                        <li>Risk-based pricing models</li>
+                    </ul>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">📈</span>
+                    <h3 class="service-title">Data-driven Insights</h3>
+                    <p class="service-description">Comprehensive analytics and reporting for informed decision-making.</p>
+                    <ul class="service-features">
+                        <li>Real-time data analytics</li>
+                        <li>Custom reporting dashboards</li>
+                        <li>Population health trends</li>
+                        <li>ROI analysis and tracking</li>
+                    </ul>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">🔒</span>
+                    <h3 class="service-title">Compliance & Security</h3>
+                    <p class="service-description">Ensuring data protection and regulatory compliance in healthcare analytics.</p>
+                    <ul class="service-features">
+                        <li>HIPAA compliance</li>
+                        <li>Data encryption & security</li>
+                        <li>Audit trail management</li>
+                        <li>Regular security updates</li>
+                    </ul>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll("section");
+            const controller = new ScrollMagic.Controller();
+
+            // Mouse movement effect for shapes
+            document.addEventListener('mousemove', function(e) {
+                const shapes = document.querySelectorAll('.shape');
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+
+                shapes.forEach((shape, index) => {
+                    const speed = 0.04 - (index * 0.005);  // Different speed for each shape
+                    const rect = shape.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    const deltaX = (mouseX - centerX) * speed;
+                    const deltaY = (mouseY - centerY) * speed;
+
+                    gsap.to(shape, {
+                        duration: 1.5,
+                        x: deltaX,
+                        y: deltaY,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            sections.forEach(section => {
+                const scene = new ScrollMagic.Scene({
+                    triggerElement: section,
+                    triggerHook: 0.8,
+                    reverse: false
+                })
+                .setTween(gsap.to(section, { opacity: 1, y: 0, duration: 1 }))
+                .addTo(controller);
+            });
+
+            const listItems = document.querySelectorAll(".animated-list li");
+            listItems.forEach((item, index) => {
+                gsap.to(item, { opacity: 1, x: 0, duration: 0.8, delay: index * 0.2 });
+            });
+
+            // Enhanced shape animations
+            const tl1 = gsap.timeline({ repeat: -1 });
+            tl1.to('.shape-1', {
+                y: '+=40',
+                x: '+=20',
+                rotation: 360,
+                duration: 8,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: 1
+            });
+
+            const tl2 = gsap.timeline({ repeat: -1 });
+            tl2.to('.shape-2', {
+                y: '-=50',
+                x: '-=25',
+                rotation: -360,
+                duration: 9,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: 1
+            });
+
+            const tl3 = gsap.timeline({ repeat: -1 });
+            tl3.to('.shape-3', {
+                y: '+=45',
+                x: '-=30',
+                rotation: 300,
+                duration: 10,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: 1
+            });
+
+            const tl4 = gsap.timeline({ repeat: -1 });
+            tl4.to('.shape-4', {
+                y: '-=35',
+                x: '+=40',
+                rotation: -330,
+                duration: 7.5,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: 1
+            });
+
+            const tl5 = gsap.timeline({ repeat: -1 });
+            tl5.to('.shape-5', {
+                y: '+=55',
+                x: '+=35',
+                rotation: 400,
+                duration: 11,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: 1
+            });
+
+            const tl6 = gsap.timeline({ repeat: -1 });
+            tl6.to('.shape-6', {
+                y: '-=40',
+                x: '-=30',
+                rotation: -280,
+                duration: 9.5,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: 1
+            });
+
+            // Enhanced morphing animation
+            function morphShape() {
+                const shapes = ['.shape-2', '.shape-3', '.shape-4', '.shape-5', '.shape-6'];
+                shapes.forEach((shape, index) => {
+                    gsap.to(shape, {
+                        borderRadius: '63% 37% 38% 62% / 56% 59% 41% 44%',
+                        duration: 8,
+                        ease: "sine.inOut",
+                        yoyo: true,
+                        repeat: -1
+                    });
+
+                    // Add scale animation
+                    gsap.to(shape, {
+                        scale: 1.1,
+                        duration: 12,
+                        ease: "sine.inOut",
+                        yoyo: true,
+                        repeat: -1,
+                        delay: index * 0.5
+                    });
+                });
+            }
+
+            // Initialize shapes
+            window.addEventListener('load', function() {
+                const shapes = document.querySelectorAll('.shape');
+                shapes.forEach(shape => {
+                    gsap.set(shape, { clearProps: "all" });
+                });
+                morphShape();
+            });
+
+            // Reset shapes position on window resize
+            window.addEventListener('resize', function() {
+                const shapes = document.querySelectorAll('.shape');
+                shapes.forEach(shape => {
+                    gsap.to(shape, {
+                        duration: 0.5,
+                        x: 0,
+                        y: 0,
+                        scale: 1,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            // Add click handler for start button
+            const startButton = document.querySelector('.start-button');
+            const header = document.querySelector('header');
+            const mainContent = document.querySelector('.main-content');
+            
+            startButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                header.style.willChange = 'transform, opacity';
+                header.classList.add('fade-out');
+                
+                mainContent.style.transition = 'opacity 0.8s ease';
+                mainContent.style.opacity = '0.7';
+                
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 700);
+            });
+        });
+    </script>
+</body>
+</html>
