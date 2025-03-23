@@ -5,43 +5,36 @@ import os
 
 app = Flask(__name__)
 
-# Database configuration
 DATABASE = 'db.db'
 
-# Model function (replace with your actual ML model logic)
 def analyze_data(database_path):
-    """
-    Placeholder for your ML model analysis.
-    Replace this with your actual model's code.
-    """
-    try:
-        conn = sqlite3.connect(database_path)
-        df = pd.read_sql_query("SELECT * FROM data", conn)
-        conn.close()
+   '''
 
-        # Example: Calculate the mean of a column (replace with your model's logic)
-        if not df.empty and 'some_cloumn' in df.columns: #Add column check to avoid key errors.
-            result = df['some_column'].mean()
-        else:
-            result = "No suitable data for analysis."
+   This function contains Api endpoint linking which transfers the data we get from the user to our ML model
 
-        return result
-
-    except Exception as e:
-        return f"Error during analysis: {e}"
+   Our Api endpoint linking is under development, Our model is completed and the link is provided in the repository.
+   We are facing some issues while passing the data through the api url and the result that we're getting.
+   We are experimenting with various cloud platforms to host our model.
+   All hands are on deck for fixing this. We plan on resolving this very soon.
+   
+   '''
 
 def create_table(database_path, df):
-    """Creates a table in the database from a pandas DataFrame."""
+    '''
+    This function takes the user csv data and creates a table to be inserted into our database using pandas.
+
+    '''
+
     try:
         conn = sqlite3.connect(database_path)
-        df.to_sql('data', conn, if_exists='replace', index=False) # replace if the table 'data' already exists.
+        df.to_sql('data', conn, if_exists='replace', index=False)  
         conn.close()
         return True
     except Exception as e:
         print(f"Error creating table: {e}")
         return False
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/import', methods=['GET', 'POST']) 
 def import_data():
     if request.method == 'POST':
         if 'csv_file' not in request.files:
@@ -55,7 +48,7 @@ def import_data():
         if file and file.filename.endswith('.csv'):
             try:
                 df = pd.read_csv(file)
-                if create_table(file, df):
+                if create_table(DATABASE, df): 
                     return redirect(url_for('results'))
                 else:
                     return "Error storing data in the database."
@@ -66,12 +59,16 @@ def import_data():
         else:
             return "Invalid file format. Please upload a CSV file."
 
-    return render_template('import.html')
+    return render_template('file-selection.html') 
 
 @app.route('/results')
 def results():
-    result = analyze_data(DATABASE)
+    result = analyze_data(DATABASE) #This function is empty in the current version, the model can be accessed in our repository, We will display a static results table for presentation purpose
     return render_template('result.html', result=result)
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
